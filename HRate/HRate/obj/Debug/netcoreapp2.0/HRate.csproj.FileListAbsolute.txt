@@ -1,0 +1,11 @@
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\bin\Debug\netcoreapp2.0\HRate.deps.json
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\bin\Debug\netcoreapp2.0\HRate.runtimeconfig.json
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\bin\Debug\netcoreapp2.0\HRate.runtimeconfig.dev.json
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\bin\Debug\netcoreapp2.0\HRate.dll
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\bin\Debug\netcoreapp2.0\HRate.pdb
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\obj\Debug\netcoreapp2.0\HRate.csprojResolveAssemblyReference.cache
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\obj\Debug\netcoreapp2.0\HRate.csproj.CoreCompileInputs.cache
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\obj\Debug\netcoreapp2.0\HRate.AssemblyInfoInputs.cache
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\obj\Debug\netcoreapp2.0\HRate.AssemblyInfo.cs
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\obj\Debug\netcoreapp2.0\HRate.dll
+E:\AutomaticaSiCalculatoare\Licenta\HRate\HRate\obj\Debug\netcoreapp2.0\HRate.pdb
