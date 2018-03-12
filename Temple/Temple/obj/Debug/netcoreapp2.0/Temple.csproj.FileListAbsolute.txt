@@ -1,0 +1,11 @@
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\bin\Debug\netcoreapp2.0\Temple.deps.json
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\bin\Debug\netcoreapp2.0\Temple.runtimeconfig.json
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\bin\Debug\netcoreapp2.0\Temple.runtimeconfig.dev.json
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\bin\Debug\netcoreapp2.0\Temple.dll
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\bin\Debug\netcoreapp2.0\Temple.pdb
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\obj\Debug\netcoreapp2.0\Temple.csprojResolveAssemblyReference.cache
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\obj\Debug\netcoreapp2.0\Temple.csproj.CoreCompileInputs.cache
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\obj\Debug\netcoreapp2.0\Temple.AssemblyInfoInputs.cache
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\obj\Debug\netcoreapp2.0\Temple.AssemblyInfo.cs
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\obj\Debug\netcoreapp2.0\Temple.dll
+E:\AutomaticaSiCalculatoare\Licenta\Temple\Temple\obj\Debug\netcoreapp2.0\Temple.pdb

@@ -1,0 +1,19 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=2.0" />
+    <title>@ViewData["Title"] - Temple App</title>
+</head>
+    <body>
+
+                <a asp-area="" asp-controller="Home" asp-action="Index" class="navbar-brand">Temple</a>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+    </div>
+
+    @RenderSection("Scripts", required: false)
+    </body>
+</html>
