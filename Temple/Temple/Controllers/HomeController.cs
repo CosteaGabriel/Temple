@@ -10,9 +10,9 @@ namespace Temple.Controllers
 {
     public class HomeController : Controller
     {
-        public string Index()
+        public IActionResult Index()
         {
-            return "It Works mothertruckers!!!!";
+            return View();
         }
 
         public IActionResult About()
