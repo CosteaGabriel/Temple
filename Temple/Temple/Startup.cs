@@ -25,31 +25,31 @@ namespace Temple
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc();
-            services.AddDbContext<TempleContext>(OptionsConfigurationServiceCollectionExtensions =>
-                 OptionsConfigurationServiceCollectionExtensions.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
+            services.AddDbContext<TempleContext>(options =>
+                options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
         }
-
-        // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, IHostingEnvironment env)
-        {
-            if (env.IsDevelopment())
+            // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
+             public void Configure(IApplicationBuilder app, IHostingEnvironment env)
             {
-                app.UseBrowserLink();
-                app.UseDeveloperExceptionPage();
+                if (env.IsDevelopment())
+                {
+                    app.UseBrowserLink();
+                    app.UseDeveloperExceptionPage();
+                }
+                else
+                {
+                    app.UseExceptionHandler("/Home/Error");
+                }
+
+                app.UseStaticFiles();
+
+                app.UseMvc(routes =>
+                {
+                    routes.MapRoute(
+                        name: "default",
+                        template: "{controller=Pacients}/{action=Index}/{id?}");
+                });
             }
-            else
-            {
-                app.UseExceptionHandler("/Home/Error");
-            }
-
-            app.UseStaticFiles();
-
-            app.UseMvc(routes =>
-            {
-                routes.MapRoute(
-                    name: "default",
-                    template: "{controller=Home}/{action=Index}/{id?}");
-            });
         }
     }
-}
+

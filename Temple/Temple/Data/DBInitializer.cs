@@ -14,7 +14,7 @@ namespace Temple.Data
             context.Database.EnsureCreated();
 
             // Look for any pacients.
-            if (context.Pacients.Any())
+            if (context.Distributions.Any())
             {
                 return; //DB has been seeded
             }

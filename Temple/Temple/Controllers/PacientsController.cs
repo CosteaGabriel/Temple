@@ -21,14 +21,9 @@ namespace Temple.Controllers
 
         // GET: Pacients
         public async Task<IActionResult> Index()
-        {
-            var pacient = await _context.Pacients.ToListAsync();
-            if(pacient == null)
-            {
-                return NotFound();
-            }
 
-            return View(pacient);
+        {
+            return View(await _context.Pacients.ToListAsync());
         }
 
         // GET: Pacients/Details/5
@@ -40,7 +35,11 @@ namespace Temple.Controllers
             }
 
             var pacient = await _context.Pacients
-                .SingleOrDefaultAsync(m => m.PacientID == id);
+              .Include(s => s.Distributions)
+                    .ThenInclude(e => e.Doctor)
+              .AsNoTracking()
+              .SingleOrDefaultAsync(m => m.PacientID == id);
+
             if (pacient == null)
             {
                 return NotFound();
@@ -60,13 +59,23 @@ namespace Temple.Controllers
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("PacientID,FirstMidName,LastName,EnrollmentDate")] Pacient pacient)
+        public async Task<IActionResult> Create([Bind("FirstMidName,LastName,EnrollmentDate")] Pacient pacient)
         {
-            if (ModelState.IsValid)
+            try
             {
-                _context.Add(pacient);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
+                if (ModelState.IsValid)
+                {
+                    _context.Add(pacient);
+                    await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
+                }
+            }
+            catch(DbUpdateException ex)
+            {
+                //Log the error
+                ModelState.AddModelError("", "Unable to save changes. " +
+                    "Try again, and if the problem persists " +
+                    "see your system administrator.");
             }
             return View(pacient);
         }
@@ -90,36 +99,42 @@ namespace Temple.Controllers
         // POST: Pacients/Edit/5
         // To protect from overposting attacks, please enable the specific properties you want to bind to, for 
         // more details see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
+        [HttpPost, ActionName("Edit")]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("PacientID,FirstMidName,LastName,EnrollmentDate")] Pacient pacient)
+        public async Task<IActionResult> EditPost(int? id)
         {
-            if (id != pacient.PacientID)
+            if (id ==null)
             {
                 return NotFound();
             }
 
-            if (ModelState.IsValid)
+            var pacientToUpdate = await _context.Pacients.SingleOrDefaultAsync(s => s.PacientID == id);
+            if (await TryUpdateModelAsync<Pacient>(pacientToUpdate, "", s => s.FirstMidName, s => s.LastName, s => s.EnrollmentDate))
             {
                 try
                 {
-                    _context.Update(pacient);
+                    //_context.Update(pacient);
                     await _context.SaveChangesAsync();
+                    return RedirectToAction(nameof(Index));
                 }
-                catch (DbUpdateConcurrencyException)
+                catch (DbUpdateException)
                 {
-                    if (!PacientExists(pacient.PacientID))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
+                    // Log the error
+                    ModelState.AddModelError("", "Unable to save changes." +
+                        "Try again, and if the problem persists, see your system administrator");
+
+                    //if (!PacientExists(pacient.PacientID))
+                    //{
+                    //    return NotFound();
+                    //}
+                    //else
+                    //{
+                    //    throw;
+                    //}
                 }
-                return RedirectToAction(nameof(Index));
+                //return RedirectToAction(nameof(Index));
             }
-            return View(pacient);
+            return View(pacientToUpdate);
         }
 
         // GET: Pacients/Delete/5
