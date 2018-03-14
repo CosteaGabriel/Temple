@@ -70,7 +70,7 @@ namespace Temple.Controllers
                     return RedirectToAction(nameof(Index));
                 }
             }
-            catch(DbUpdateException ex)
+            catch(DbUpdateException)
             {
                 //Log the error
                 ModelState.AddModelError("", "Unable to save changes. " +
@@ -113,7 +113,6 @@ namespace Temple.Controllers
             {
                 try
                 {
-                    //_context.Update(pacient);
                     await _context.SaveChangesAsync();
                     return RedirectToAction(nameof(Index));
                 }
@@ -122,23 +121,13 @@ namespace Temple.Controllers
                     // Log the error
                     ModelState.AddModelError("", "Unable to save changes." +
                         "Try again, and if the problem persists, see your system administrator");
-
-                    //if (!PacientExists(pacient.PacientID))
-                    //{
-                    //    return NotFound();
-                    //}
-                    //else
-                    //{
-                    //    throw;
-                    //}
                 }
-                //return RedirectToAction(nameof(Index));
             }
             return View(pacientToUpdate);
         }
 
         // GET: Pacients/Delete/5
-        public async Task<IActionResult> Delete(int? id)
+        public async Task<IActionResult> Delete(int? id, bool? saveChangesError = false)
         {
             if (id == null)
             {
@@ -146,12 +135,18 @@ namespace Temple.Controllers
             }
 
             var pacient = await _context.Pacients
+                .AsNoTracking()
                 .SingleOrDefaultAsync(m => m.PacientID == id);
             if (pacient == null)
             {
                 return NotFound();
             }
 
+            if(saveChangesError.GetValueOrDefault())
+            {
+                ViewData["ErrorMessage"] = "Delete failed. Try again, and if the problem persists" +
+                                            "see your system administrator.";    
+            }
             return View(pacient);
         }
 
@@ -160,10 +155,30 @@ namespace Temple.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> DeleteConfirmed(int id)
         {
-            var pacient = await _context.Pacients.SingleOrDefaultAsync(m => m.PacientID == id);
-            _context.Pacients.Remove(pacient);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
+            var pacient = await _context.Pacients
+                .AsNoTracking()
+                .SingleOrDefaultAsync(m => m.PacientID == id);
+            if(pacient == null)
+            {
+                return RedirectToAction(nameof(Index));
+            }
+
+            try
+            {
+                _context.Pacients.Remove(pacient);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            catch (DbUpdateException)
+            {
+                // Log the error
+                return RedirectToAction(nameof(Delete), new { id = id, saveChangesError = true });
+            }
+                
+            //var pacient = await _context.Pacients.SingleOrDefaultAsync(m => m.PacientID == id);
+            //_context.Pacients.Remove(pacient);
+            //await _context.SaveChangesAsync();
+            //return RedirectToAction(nameof(Index));
         }
 
         private bool PacientExists(int id)
