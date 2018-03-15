@@ -1,4 +1,4 @@
-﻿@model IEnumerable<Temple.Models.Pacient>
+﻿@model PaginatedList<Temple.Models.Pacient>
 
 @{
     ViewData["Title"] = "Index";
@@ -9,19 +9,27 @@
 <p>
     <a asp-action="Create">Create New</a>
 </p>
+<form asp-action="Index" method="get">
+    <div class="form-actions no-color">
+        <p>
+            Find by name: <input type="text" name="SearchString" value="@ViewData["currentFilter"]" />
+            <input type="submit" value="Search" class="btn btn-default" /> |
+            <a asp-action="Index">Back to full list</a>
+        </p>
+    </div>
+</form>
 <table class="table">
     <thead>
         <tr>
-                <th>
-                    @Html.DisplayNameFor(model => model.FirstMidName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.LastName)
-                </th>
-                <th>
-                    @Html.DisplayNameFor(model => model.EnrollmentDate)
-                </th>
-            <th></th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["NameSortParam"]">@Html.DisplayNameFor(model => model.LastName)</a>
+            </th>
+            <th>
+                @Html.DisplayNameFor(model => model.FirstMidName)
+            </th>
+            <th>
+                <a asp-action="Index" asp-route-sortOrder="@ViewData["DateSortParam"]">@Html.DisplayNameFor(model => model.EnrollmentDate)</a>
+            </th>
         </tr>
     </thead>
     <tbody>

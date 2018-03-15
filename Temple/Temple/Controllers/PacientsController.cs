@@ -20,10 +20,49 @@ namespace Temple.Controllers
         }
 
         // GET: Pacients
-        public async Task<IActionResult> Index()
-
+        public async Task<IActionResult> Index( string sortOrder, string currentFilter, string searchString, int? page)
         {
-            return View(await _context.Pacients.ToListAsync());
+            ViewData["CurrentSort"] = sortOrder;
+            ViewData["NameSortParam"] = String.IsNullOrEmpty(sortOrder) ? "name_desc" : "";
+            ViewData["DateSortParam"] = sortOrder == "Date" ? "date_desc" : "Date";
+
+            if(searchString != null)
+            {
+                page = 1;
+            }
+            else
+            {
+                searchString = currentFilter;
+            }
+
+            ViewData["currentFilter"] = searchString;
+            var pacients = from s in _context.Pacients
+                           select s;
+
+            if (!String.IsNullOrEmpty(searchString))
+            {
+                pacients = pacients.Where(s => s.LastName.Contains(searchString)
+                                        || s.FirstMidName.Contains(searchString));
+            }
+
+            switch (sortOrder)
+            {
+                case "name_desc":
+                    pacients = pacients.OrderByDescending(s => s.LastName);
+                    break;
+                case "Date":
+                    pacients = pacients.OrderBy(s => s.EnrollmentDate);
+                    break;
+                case "date_desc":
+                    pacients = pacients.OrderByDescending(s => s.EnrollmentDate);
+                    break;
+                default:
+                    pacients = pacients.OrderBy(s => s.LastName);
+                    break;
+            }
+
+            int pageSize = 3;
+            return View(await PaginatedList<Pacient>.CreateAsync(pacients.AsNoTracking(), page ?? 1, pageSize);
         }
 
         // GET: Pacients/Details/5
