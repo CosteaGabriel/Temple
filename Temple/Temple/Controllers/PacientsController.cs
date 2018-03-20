@@ -61,8 +61,8 @@ namespace Temple.Controllers
                     break;
             }
 
-            int pageSize = 3;
-            return View(await PaginatedList<Pacient>.CreateAsync(pacients.AsNoTracking(), page ?? 1, pageSize);
+            int pageSize = 2;
+            return View(await PaginatedList<Pacient>.CreateAsync(pacients.AsNoTracking(), page ?? 1, pageSize));
         }
 
         // GET: Pacients/Details/5
