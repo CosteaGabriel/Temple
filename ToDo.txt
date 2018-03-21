@@ -1,6 +1,0 @@
-interfata pt doctor
-doctor introduce datele
-pacentii sa isi faca cerere de consult
-email interface
-pagina de login
-pacentii sa nu isi poata modifica datele lor
