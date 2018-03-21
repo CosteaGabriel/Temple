@@ -4,6 +4,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Temple.Data;
 using Temple.Models;
 using Temple.Models.TempleViewModel;
@@ -21,10 +22,10 @@ namespace Temple.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            return View("~/Views/Home/Index.cshtml");
         }
 
-        public IActionResult About()
+        public async Task<ActionResult> About()
         {
             ViewData["Message"] = "Your application description page.";
 
@@ -37,7 +38,7 @@ namespace Temple.Controllers
                     PacientCount = dateGroup.Count()
                 };
 
-            return View();
+            return View(await data.AsNoTracking().ToListAsync());
         }
 
         public IActionResult Contact()
